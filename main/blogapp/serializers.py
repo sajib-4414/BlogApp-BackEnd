@@ -1,4 +1,5 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 from rest_framework import serializers
 
 
@@ -7,13 +8,14 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ( 'email', 'username', 'password','first_name', 'last_name')
+        fields = ( 'email', 'username', 'password','first_name', 'last_name', 'image_url')
         required_spec_dict = {
             'required': True,
             'allow_blank': False
         }
         extra_kwargs = {
-            'email': required_spec_dict #,
+            'email': required_spec_dict,
+            'image_url': { 'required': False, 'allow_blank': True}#,
             # 'first_name': required_spec_dict,
             # 'last_name': required_spec_dict
         }
