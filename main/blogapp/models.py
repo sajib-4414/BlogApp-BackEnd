@@ -22,7 +22,7 @@ class Image(models.Model):
 
 class User(AbstractUser):
     image_url = models.CharField(max_length=300)
-    image = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
+    image = models.OneToOneField(Image, on_delete=models.DO_NOTHING, null=True, blank=True)
 
 
 class Post(models.Model):
