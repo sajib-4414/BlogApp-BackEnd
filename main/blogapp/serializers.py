@@ -1,13 +1,10 @@
 from django.contrib.auth import get_user_model
 from rest_flex_fields import FlexFieldsModelSerializer
 from rest_framework.exceptions import ValidationError
-
 from main.blogapp.models import Image
-
-User = get_user_model()
 from rest_framework import serializers
-
 from versatileimagefield.serializers import VersatileImageFieldSerializer
+User = get_user_model()
 
 
 class ImageSerializer(FlexFieldsModelSerializer):
@@ -26,8 +23,8 @@ class ImageSerializer(FlexFieldsModelSerializer):
 class UserCreationSerializer(FlexFieldsModelSerializer):
     password = serializers.CharField(write_only=True)
     user_id = serializers.SerializerMethodField('get_user_id')
-    image = ImageSerializer(required=False)# If you write here ImageSerializer then serializer will expect an integer(which)
-    #is primary key here in the payload and also output the same, if you write here ImageSerializer() then the payload
+    image = ImageSerializer(required=False)  # If you write here ImageSerializer then serializer will expect an integer(which)
+    # is primary key here in the payload and also output the same, if you write here ImageSerializer() then the payload
     # have to contain dict and also output the image as dict
 
     def get_user_id(self, obj):
@@ -46,10 +43,7 @@ class UserCreationSerializer(FlexFieldsModelSerializer):
             'allow_blank': False
         }
         extra_kwargs = {
-            'email': required_spec_dict #,
-            # 'image_url': { 'required': False, 'allow_blank': True}#,
-            # 'first_name': required_spec_dict,
-            # 'last_name': required_spec_dict
+            'email': required_spec_dict
         }
         # expandable_fields = {
         #     'image': (ImageSerializer, {'many': False}),
@@ -66,17 +60,17 @@ class UserUpdateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False) # add password as write only, so it will not show up
     email = serializers.SerializerMethodField()
     username = serializers.SerializerMethodField()
-    image = ImageSerializer # If you write here ImageSerializer then serializer will expect an integer(which)
-    #is primary key here in the payload and also output the same, if you write here ImageSerializer() then the payload
+    image = ImageSerializer  # If you write here ImageSerializer then serializer will expect an integer(which)
+    # is primary key here in the payload and also output the same, if you write here ImageSerializer() then the payload
     # have to contain dict and also output the image as dict
+    # this serializer is used for inputting data for update so, I used ImageSerializer withouyt bracket, so I can
+    # input image ID
 
     class Meta:
         model = User
         fields = ('email','username','first_name', 'last_name','password','image')
 
     def update(self, instance, validated_data):
-        # user_data = validated_data.pop('image')
-        # print(validated_data)
         if 'first_name' in validated_data:
             instance.first_name = validated_data.get('first_name', instance.first_name)
         if 'last_name' in validated_data:

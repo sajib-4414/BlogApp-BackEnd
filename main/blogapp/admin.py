@@ -14,10 +14,10 @@ User = get_user_model()
 class CustomUserAdmin(UserAdmin):
     ...
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('image_url','image',)}),
+        (None, {'fields': ('image',)}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('image_url','image',)}),
+        (None, {'fields': ('image',)}),
     )
 
 admin.site.register(Post)

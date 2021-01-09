@@ -4,10 +4,10 @@ from rest_framework import generics, status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from .serializers import ImageSerializer
+from rest_flex_fields.views import FlexFieldsModelViewSet
 from main.blogapp.serializers import UserCreationSerializer, UserUpdateSerializer, UserOutputSerializer
 from .models import Image
-
 User = get_user_model()
 
 
@@ -41,15 +41,14 @@ class UserRetrieveUpdateAPIView(APIView):
             # return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# class UserUpdateAPIView(generics.UpdateAPIView):
-#     queryset = User.objects.all()
-#     serializer_class = UserUpdateSerializer
-#     permission_classes = (AllowAny,)
-
-from .serializers import ImageSerializer
-from rest_flex_fields.views import FlexFieldsModelViewSet
 
 class ImageViewSet(FlexFieldsModelViewSet):
-
+    """
+    this is a viewset, so it should support CRUD api
+    """
     serializer_class = ImageSerializer
     queryset = Image.objects.all()
+
+
+
+
