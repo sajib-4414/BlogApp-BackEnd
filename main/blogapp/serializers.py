@@ -5,10 +5,14 @@ from rest_framework import serializers
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
+    user_id = serializers.SerializerMethodField('get_user_id')
+
+    def get_user_id(self, obj):
+        return obj.id
 
     class Meta:
         model = User
-        fields = ( 'email', 'username', 'password','first_name', 'last_name', 'image_url')
+        fields = ( 'email', 'username', 'password','first_name', 'last_name', 'image_url','user_id')
         required_spec_dict = {
             'required': True,
             'allow_blank': False
