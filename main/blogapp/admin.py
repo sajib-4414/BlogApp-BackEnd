@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from main.blogapp.models import Post
+from main.blogapp.models import Post, Image
 # class CustomUserAdmin(UserAdmin):
 #     pass
 from django.contrib.auth import get_user_model
@@ -14,12 +14,13 @@ User = get_user_model()
 class CustomUserAdmin(UserAdmin):
     ...
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('image_url',)}),
+        (None, {'fields': ('image_url','image',)}),
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('image_url',)}),
+        (None, {'fields': ('image_url','image',)}),
     )
 
 admin.site.register(Post)
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(Image)
 # admin.site.register(User, CustomUserAdmin)

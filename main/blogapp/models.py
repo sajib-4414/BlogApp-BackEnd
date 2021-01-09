@@ -3,11 +3,26 @@ from django.db import models
 
 
 # Create your models here.
+from versatileimagefield.fields import VersatileImageField, PPOIField
 from main import settings
+
+
+class Image(models.Model):
+    name = models.CharField(max_length=255)
+    image = VersatileImageField(
+        'Image',
+        upload_to='images/',
+        ppoi_field='image_ppoi'
+    )
+    image_ppoi = PPOIField()
+
+    def __str__(self):
+        return self.name
 
 
 class User(AbstractUser):
     image_url = models.CharField(max_length=300)
+    image = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
 
 
 class Post(models.Model):
