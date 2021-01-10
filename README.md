@@ -43,7 +43,7 @@ sample payload:
 
 Update firstname, lastname, image id (image needs to be uploaded before referencing image here, then it will work as profile image). Image id has to be unique, means
 this image(image with this primary key) should not be assigned to any other user's profile. If an image is assigned to another user, then choose any other image. Usually
-after you upload a new image, you will get a new image id. A new ID will always work. Authentication will be added soon.
+after you upload a new image, you will get a new image id. A new ID will always work. Requires authentication. User can only update his information.
 
 
 sample payload: 
@@ -56,7 +56,7 @@ sample payload:
 ```
 - User detail(GET): http://localhost:8000/users/user-id/
 
-Get User's full profile with profile image. Authentication will be added soon.
+Get User's full profile with profile image. Requires Authentication, only logged in User can view his information.
 
 ### Image
 CRUD(GET,DELETE,UPDATE,VIEW) endpoint: http://localhost:8000/images/
