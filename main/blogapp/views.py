@@ -74,7 +74,8 @@ class PostsAPIView(APIView):
     only for list and post
     '''
     def get(self, request, format=None):
-        posts = Post.objects.all() #filter(user__username=request.user.username)
+        logged_in_username = get_logged_in_username(request)
+        posts = Post.objects.all().filter(author__username=logged_in_username)
         serializer = PostOutputSerializer(posts, many=True)
         return Response(serializer.data)
 

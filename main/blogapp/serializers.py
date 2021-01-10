@@ -112,7 +112,8 @@ class PostOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['title', 'description','author',]
+        fields = ['title', 'description']
+
 
 class PostInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
