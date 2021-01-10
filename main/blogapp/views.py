@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.http import Http404
 from rest_framework import generics, status
+from rest_framework.authtoken.models import Token
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -27,9 +29,18 @@ class UserRetrieveUpdateAPIView(APIView):
         except User.DoesNotExist:
             raise Http404
 
+    def validate_if_owner_logged_in(self,request, user):
+        """
+        Verifying the user is requesting profile information or updating, is Logged in with his profile
+        """
+        token_user = Token.objects.get(key=request.auth.key).user
+        if token_user.username != user.username:
+            raise ValidationError("You are not allowed to perform this action.")
+
     def get(self, request, pk, format=None):
-        todo = self.get_object(pk)
-        output_serializer = UserOutputSerializer(todo)
+        user = self.get_object(pk)
+        self.validate_if_owner_logged_in(request,user)
+        output_serializer = UserOutputSerializer(user)
         return Response(output_serializer.data)
 
     def put(self, request, pk, format=None):
