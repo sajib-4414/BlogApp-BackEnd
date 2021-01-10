@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 from main.blogapp import views
 from rest_framework import routers
+from rest_framework.authtoken import views as authtoken_views
 
 router = routers.DefaultRouter()
 router.register(r'images',views.ImageViewSet)
@@ -29,6 +30,10 @@ urlpatterns = [
     path('users/', views.UserCreateAPIView.as_view()),
     path('users/<int:pk>/', views.UserRetrieveUpdateAPIView.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+]
+
+urlpatterns += [
+    path('auth-token/', authtoken_views.obtain_auth_token)
 ]
 
 if settings.DEBUG:
