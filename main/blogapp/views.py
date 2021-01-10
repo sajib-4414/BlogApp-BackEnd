@@ -52,7 +52,7 @@ class ImageViewSet(FlexFieldsModelViewSet):
 
 
 class PostsAPIView(APIView):
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     '''
     only for list and post
     '''
