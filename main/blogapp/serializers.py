@@ -109,15 +109,20 @@ class UserOutputSerializer(serializers.ModelSerializer):
 
 
 class PostOutputSerializer(serializers.ModelSerializer):
+    pk = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
-        fields = ['title', 'description']
+        fields = ['title', 'description','pk']
+
+    def get_pk(self,obj):
+        return obj.id
 
 
 class PostInputSerializer(serializers.Serializer):
     title = serializers.CharField(max_length=200)
     description = serializers.CharField(max_length=500)
+    pk = serializers.SerializerMethodField()
 
     def create(self, validated_data):
         postitem = Post.objects.create(**validated_data)
@@ -128,3 +133,6 @@ class PostInputSerializer(serializers.Serializer):
 
         postitem.save()
         return postitem
+
+    def get_pk(self,obj):
+        return obj.id
