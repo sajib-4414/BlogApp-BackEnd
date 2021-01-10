@@ -2,6 +2,28 @@
 This project is created to learn about DRF, PostGres database, Image, Testing in python.
 
 Supported Endpoints right now:
+### Acquire Authentication
+Most of the Endpoints require Authentication in the Back-End to create a successful request. In this project, a Token based authentication is implemented.
+To acquire authentication, you need a valid user credentials (username and password). First create a user via calling the user creation API in the user section. Then
+call this endpoint with a valid payload:
+
+http://localhost:8000/users/
+
+Sample payload: 
+```javascript
+{
+   "username": "test-username",
+   "password": "my-password",
+}
+```
+You will receive a token in the response. Now add this token in the following payload format in the header to make an authenticated request. For Postman, select Auth->API auth, and then put the key and the value. 
+
+Authentication Header payload format:
+```javascript
+{
+   "Authorization": "Token your-token-value"
+}
+```
 ### User
 - User creation(POST) : http://localhost:8000/users/
 
@@ -57,5 +79,19 @@ Sample response:
         "thumbnail": "http://127.0.0.1:8000/media/__sized__/images/xray_enc_xor_image-thumbnail-100x100.png",
         "full_size": "http://127.0.0.1:8000/media/images/xray_enc_xor_image.png"
     }
+}
+```
+
+### Post
+
+- Post Creation (POST):http://localhost:8000/posts/
+
+Provide title and description to create a post. Requires authentication, refer to Authentication section, how to provide authentication.
+
+Sample payload: 
+```javascript
+{
+   "title": "post title"
+   "description": "this is description"
 }
 ```
