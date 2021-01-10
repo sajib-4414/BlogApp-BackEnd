@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_flex_fields import FlexFieldsModelSerializer
 from rest_framework.exceptions import ValidationError
-from main.blogapp.models import Image
+from main.blogapp.models import Image, Post
 from rest_framework import serializers
 from versatileimagefield.serializers import VersatileImageFieldSerializer
 User = get_user_model()
@@ -108,3 +108,18 @@ class UserOutputSerializer(serializers.ModelSerializer):
         fields = ('email','username','first_name', 'last_name','image')
 
 
+class PostSerializer(serializers.ModelSerializer):
+    # user_created = serializers.SerializerMethodField('get_user_created')
+    # id = serializers.SerializerMethodField()
+
+    # def get_user_created(self, todo):
+    #     if todo.user:
+    #         return todo.user.username
+    #     return ""
+
+    # def get_id(self,obj):
+    #     return obj.id
+
+    class Meta:
+        model = Post
+        fields = ['title', 'description','author',]

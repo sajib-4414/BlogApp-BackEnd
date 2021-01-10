@@ -29,6 +29,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', views.UserCreateAPIView.as_view()),
     path('users/<int:pk>/', views.UserRetrieveUpdateAPIView.as_view()),
+    path('posts/', views.PostsAPIView.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
