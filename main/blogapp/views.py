@@ -45,7 +45,7 @@ class UserRetrieveUpdateAPIView(APIView):
 
     def put(self, request, pk, format=None):
         user = self.get_object(pk)
-
+        self.validate_if_owner_logged_in(request,user)
         serializer = UserUpdateSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
