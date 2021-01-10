@@ -6,11 +6,10 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import ImageSerializer, PostOutputSerializer, PostInputSerializer
+from .serializers import ImageSerializer, PostOutputSerializer, PostInputSerializer, PostUpdateSerializer
 from rest_flex_fields.views import FlexFieldsModelViewSet
 from main.blogapp.serializers import UserCreationSerializer, UserUpdateSerializer, UserOutputSerializer
 from .models import Image, Post
-
 User = get_user_model()
 
 
@@ -87,3 +86,52 @@ class PostsAPIView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class PostDetailUpdateDeleteAPIView(APIView):
+    """
+    Retrieve, update or delete a todoitem instance.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def validate_if_post_owner_logged_in(self,request, post):
+        """
+        Verifying the user is requesting profile information or updating, is Logged in with his profile
+        """
+        token_user = Token.objects.get(key=request.auth.key).user
+        if token_user.username != post.author.username:
+            raise ValidationError("You are not allowed to perform this action.")
+
+    def get_object(self, pk):
+        try:
+            return Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        """
+        The analogy is, anyone should be able to view any post
+        """
+        post = self.get_object(pk)
+        serializer = PostOutputSerializer(post)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        """
+        But only author should be able to update his post
+        """
+        post = self.get_object(pk)
+        self.validate_if_post_owner_logged_in(request,post)
+        serializer = PostUpdateSerializer(post, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        """
+        only author should be able to delete his post
+        """
+        post = self.get_object(pk)
+        self.validate_if_post_owner_logged_in(request,post)
+        post.delete()
+        return Response({"delete": "delete success"},status=status.HTTP_204_NO_CONTENT)
