@@ -86,7 +86,8 @@ Sample response:
 
 - Post Creation (POST):http://localhost:8000/posts/
 
-Provide title and description to create a post. Requires authentication, refer to Authentication section, how to provide authentication.
+Provide title and description to create a post. Requires authentication, refer to Authentication section, how to provide authentication. Posts will bre created under
+the logged in User.
 
 Sample payload: 
 ```javascript
@@ -95,3 +96,6 @@ Sample payload:
    "description": "this is description"
 }
 ```
+- Post Listing of logged in User (GET):http://localhost:8000/posts/
+
+Get a list of posts created by the logged in User. Requires authentication.
