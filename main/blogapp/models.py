@@ -21,10 +21,16 @@ class Image(models.Model):
 
 
 class User(AbstractUser):
+    '''
+    if any image is deleted, user should not get deleted
+    '''
     image = models.OneToOneField(Image, on_delete=models.DO_NOTHING, null=True, blank=True)
 
 
 class Post(models.Model):
+    '''
+    if any user(author) is deleted, it should delete his posts as well
+    '''
     title = models.CharField(max_length=200)
     description = models.CharField(max_length=500)
     author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
