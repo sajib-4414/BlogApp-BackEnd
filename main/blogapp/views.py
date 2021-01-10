@@ -19,6 +19,7 @@ class UserCreateAPIView(generics.CreateAPIView):
 
 
 class UserRetrieveUpdateAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
     def get_object(self, pk):
         try:
