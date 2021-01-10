@@ -108,18 +108,22 @@ class UserOutputSerializer(serializers.ModelSerializer):
         fields = ('email','username','first_name', 'last_name','image')
 
 
-class PostSerializer(serializers.ModelSerializer):
-    # user_created = serializers.SerializerMethodField('get_user_created')
-    # id = serializers.SerializerMethodField()
-
-    # def get_user_created(self, todo):
-    #     if todo.user:
-    #         return todo.user.username
-    #     return ""
-
-    # def get_id(self,obj):
-    #     return obj.id
+class PostOutputSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
         fields = ['title', 'description','author',]
+
+class PostInputSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=200)
+    description = serializers.CharField(max_length=500)
+
+    def create(self, validated_data):
+        postitem = Post.objects.create(**validated_data)
+        username = self.context["username"]
+        user_fetched = User.objects.filter(username=username).first()
+        if user_fetched:
+            postitem.author = user_fetched
+
+        postitem.save()
+        return postitem

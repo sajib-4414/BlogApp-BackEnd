@@ -6,7 +6,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import ImageSerializer, PostSerializer
+from .serializers import ImageSerializer, PostOutputSerializer, PostInputSerializer
 from rest_flex_fields.views import FlexFieldsModelViewSet
 from main.blogapp.serializers import UserCreationSerializer, UserUpdateSerializer, UserOutputSerializer
 from .models import Image, Post
@@ -63,6 +63,11 @@ class ImageViewSet(FlexFieldsModelViewSet):
     queryset = Image.objects.all()
 
 
+def get_logged_in_username(request):
+    token_user = Token.objects.get(key=request.auth.key).user
+    return token_user.username
+
+
 class PostsAPIView(APIView):
     permission_classes = [IsAuthenticated]
     '''
@@ -70,12 +75,13 @@ class PostsAPIView(APIView):
     '''
     def get(self, request, format=None):
         posts = Post.objects.all() #filter(user__username=request.user.username)
-        serializer = PostSerializer(posts, many=True)
+        serializer = PostOutputSerializer(posts, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        serializer = PostSerializer(data=request.data.copy())
-        # serializer.context["username"] = request.user.username #passing username, serializer will add the linked user later
+        serializer = PostInputSerializer(data=request.data.copy())
+        logged_in_username = get_logged_in_username(request)
+        serializer.context["username"] = logged_in_username
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
