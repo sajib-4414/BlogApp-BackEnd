@@ -30,6 +30,10 @@ urlpatterns = [
     path('users/', views.UserCreateAPIView.as_view()),
     path('users/<int:pk>/', views.UserRetrieveUpdateAPIView.as_view()),
     path('posts/', views.PostsAPIView.as_view()),
+    path('posts/<int:pk>/', views.PostDetailUpdateDeleteAPIView.as_view()),
+    path('comments/', views.CommentsAPIView.as_view()),
+    path('comments/<int:pk>/', views.CommentDetailUpdateDeleteAPIView.as_view()),
+    path('comments-by-post/<int:pk>/', views.CommentsOfaPostAPIView.as_view()),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 

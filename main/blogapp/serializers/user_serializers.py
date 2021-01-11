@@ -1,23 +1,10 @@
 from django.contrib.auth import get_user_model
 from rest_flex_fields import FlexFieldsModelSerializer
 from rest_framework.exceptions import ValidationError
-from main.blogapp.models import Image, Post
+from main.blogapp.models import Image
 from rest_framework import serializers
-from versatileimagefield.serializers import VersatileImageFieldSerializer
+from main.blogapp.serializers import ImageSerializer
 User = get_user_model()
-
-
-class ImageSerializer(FlexFieldsModelSerializer):
-    image = VersatileImageFieldSerializer(
-        sizes=[
-            ('full_size', 'url'),
-            ('thumbnail', 'thumbnail__100x100'),
-        ]
-    )
-
-    class Meta:
-        model = Image
-        fields = ['pk', 'name', 'image']
 
 
 class UserCreationSerializer(FlexFieldsModelSerializer):
@@ -106,33 +93,3 @@ class UserOutputSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email','username','first_name', 'last_name','image')
-
-
-class PostOutputSerializer(serializers.ModelSerializer):
-    pk = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Post
-        fields = ['title', 'description','pk']
-
-    def get_pk(self,obj):
-        return obj.id
-
-
-class PostInputSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length=200)
-    description = serializers.CharField(max_length=500)
-    pk = serializers.SerializerMethodField()
-
-    def create(self, validated_data):
-        postitem = Post.objects.create(**validated_data)
-        username = self.context["username"]
-        user_fetched = User.objects.filter(username=username).first()
-        if user_fetched:
-            postitem.author = user_fetched
-
-        postitem.save()
-        return postitem
-
-    def get_pk(self,obj):
-        return obj.id
