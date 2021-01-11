@@ -1,5 +1,11 @@
 # Technology discussion Board Back-End
-This project is created to learn about DRF, PostGres database, Image, Testing in python.
+It is the Back-End for a technology discussion related Application. Any front-End such as Mobile can consume this. I will create a front-End consumer soon. Right nowm, one can signup by creating an user. They can add profile image. Then they can login to do all the activities. An authenticated user create Posts and write comments. View, update, delete of comments and posts are supported.
+
+Used frameworks and technologies in this project are: 
+
+- To create REST APIs, Django Rest Framework 3.12.2 is used.
+- For Database, PostGres Database is Used.
+- For authentication, DRF's Token Based authentication is used.
 
 Supported Endpoints right now:
 ### Acquire Authentication
