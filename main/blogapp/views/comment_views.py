@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from main.blogapp.models import Comment
 from main.blogapp.serializers import CommentOutputSerializer, CommentInputSerializer, CommentUpdateSerializer
-from main.blogapp.views import get_logged_in_username, validate_if_post_or_comment_owner_logged_in
+from main.blogapp.views import get_logged_in_username, validate_if_post_or_comment_owner_logged_in, get_post_object
 from rest_framework.response import Response
 
 
@@ -54,7 +54,7 @@ class CommentDetailUpdateDeleteAPIView(APIView):
 
     def put(self, request, pk, format=None):
         """
-        only author should be able to update his post
+        only author should be able to update his commment
         """
         comment = get_comment_object(pk)
         validate_if_post_or_comment_owner_logged_in(request, comment)
@@ -72,3 +72,19 @@ class CommentDetailUpdateDeleteAPIView(APIView):
         validate_if_post_or_comment_owner_logged_in(request, comment)
         comment.delete()
         return Response({"delete": "delete success"},status=status.HTTP_204_NO_CONTENT)
+
+
+class CommentsOfaPostAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    '''
+    only getting list of comments of a post
+    '''
+    def get(self, request, pk, format=None):
+        """
+        anybody can see comments of a post
+        """
+        post = get_post_object(pk)
+        comments = post.comment_set.all()
+        # validate_if_post_or_comment_owner_logged_in(request, comment)
+        serializer = CommentOutputSerializer(comments, many=True)
+        return Response(serializer.data)
