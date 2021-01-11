@@ -6,6 +6,7 @@ Used frameworks and technologies in this project are:
 - To create REST APIs, Django Rest Framework 3.12.2 is used.
 - For Database, PostGres Database is Used.
 - For authentication, DRF's Token Based authentication is used.
+- For testing, Unit Tests are used.
 
 Supported Endpoints right now:
 ### Acquire Authentication
@@ -126,3 +127,9 @@ Sample payload to create comment:
 To edit a comment just provide the comment text. Post to which the comment was posted, cannot be changed.
 
 - Get all comments of a post (GET): http://localhost:8000/comments-by-post/post-id/
+
+### Tests
+Project has unit tests. These include API tests, model tests. To run tests use this command,
+```javascript
+python manage.py test
+```
