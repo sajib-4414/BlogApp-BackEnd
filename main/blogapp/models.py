@@ -35,9 +35,24 @@ class Post(models.Model):
     description = models.CharField(max_length=500)
     author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
+    '''
+    creating a string representation of the post model, which is the title of the post with upto 30 characters
+    '''
     def __str__(self):
         data = (self.title[:30] + '..') if len(self.title) > 30 else self.title
         return data
 
 
+class Comment(models.Model):
+    """
+    if any user(author) is deleted, it should delete his comments as well
+    if any post is deleted, it should delete the comments as well
+    """
+    comment_text = models.CharField(max_length=300)
+    author = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    post = models.ForeignKey(to=Post, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        data = (self.comment_text[:30] + '..') if len(self.comment_text) > 30 else self.comment_text
+        return data
 

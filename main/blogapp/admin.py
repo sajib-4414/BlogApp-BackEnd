@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from main.blogapp.models import Post, Image
+from main.blogapp.models import Post, Image, Comment
 # class CustomUserAdmin(UserAdmin):
 #     pass
 from django.contrib.auth import get_user_model
@@ -21,6 +21,7 @@ class CustomUserAdmin(UserAdmin):
     )
 
 admin.site.register(Post)
+admin.site.register(Comment)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Image)
 # admin.site.register(User, CustomUserAdmin)
