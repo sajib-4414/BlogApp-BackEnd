@@ -31,8 +31,7 @@ class CommentsAPIView(APIView):
         logged_in_username = get_logged_in_username(request)
         serializer.context["username"] = logged_in_username
         if serializer.is_valid():
-            serializer.save()
-            created_comment = Comment.objects.all().last()
+            created_comment = serializer.save()
             output_serializer = CommentOutputSerializer(created_comment)
             return Response(output_serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
