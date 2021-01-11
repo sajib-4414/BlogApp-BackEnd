@@ -3,7 +3,9 @@ from rest_flex_fields import FlexFieldsModelSerializer
 from rest_framework.exceptions import ValidationError
 from main.blogapp.models import Image
 from rest_framework import serializers
-from main.blogapp.serializers import ImageSerializer
+
+from main.blogapp.serializers.other_serializers import ImageSerializer
+
 User = get_user_model()
 
 
