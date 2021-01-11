@@ -84,12 +84,12 @@ Sample response:
 
 ### Post
 
-- Post Creation (POST):http://localhost:8000/posts/
+- Post Creation and Lists (POST, GET):http://localhost:8000/posts/
 
 Provide title and description to create a post. Requires authentication, refer to Authentication section, how to provide authentication. Posts will bre created under
 the logged in User.
 
-Sample payload: 
+Sample payload to create post: 
 ```javascript
 {
    "title": "post title"
@@ -99,3 +99,24 @@ Sample payload:
 - Post Listing of logged in User (GET):http://localhost:8000/posts/
 
 Get a list of posts created by the logged in User. Requires authentication.
+
+- Post details and update Endpoint (PUT, DELETE):http://localhost:8000/posts/post-id/
+
+### Comment
+- Comment Creation and List of all comments by an user (POST, GET):http://localhost:8000/comments/
+
+Provide post id and comment text as input to create a comment on a particular comment. It will be automatically count the logged in user as author of the comment. Only an
+user can see his all comments.
+Sample payload to create comment: 
+
+```javascript
+{
+   "post": "4"
+   "comment_text": "This is a test comment"
+}
+```
+- Comment details, update, delete Endpoint (GET, PUT, DELETE):http://localhost:8000/comments/comment-id/
+
+To edit a comment just provide the comment text. Post to which the comment was posted, cannot be changed.
+
+- Get all comments of a post (GET): http://localhost:8000/comments-by-post/post-id/
