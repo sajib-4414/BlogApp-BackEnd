@@ -16,7 +16,7 @@ def get_logged_in_username(request):
     return token_user.username
 
 
-def validate_if_post_owner_logged_in(request, post):
+def validate_if_post_or_comment_owner_logged_in(request, post):
     """
     Verifying the user is requesting profile information or updating, is Logged in with his profile
     """
@@ -72,7 +72,7 @@ class PostDetailUpdateDeleteAPIView(APIView):
         only author should be able to update his post
         """
         post = get_post_object(pk)
-        validate_if_post_owner_logged_in(request,post)
+        validate_if_post_or_comment_owner_logged_in(request, post)
         serializer = PostUpdateSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -84,6 +84,6 @@ class PostDetailUpdateDeleteAPIView(APIView):
         only author should be able to delete his post
         """
         post = get_post_object(pk)
-        validate_if_post_owner_logged_in(request,post)
+        validate_if_post_or_comment_owner_logged_in(request, post)
         post.delete()
         return Response({"delete": "delete success"},status=status.HTTP_204_NO_CONTENT)
