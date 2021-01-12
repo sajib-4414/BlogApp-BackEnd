@@ -38,7 +38,7 @@ urlpatterns = [
 ]
 
 urlpatterns += [
-    path('auth-token/', authtoken_views.obtain_auth_token)
+    path('auth-token/', authtoken_views.obtain_auth_token) # This one for getting Token
 ]
 
 if settings.DEBUG:
