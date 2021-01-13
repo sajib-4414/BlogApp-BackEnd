@@ -137,3 +137,12 @@ to run Test with coverage run this command,
 ```javascript
 coverage run --source='.' manage.py test main.blogapp
 ```
+It will generate a coverage file. You may want to erase it by issueing this command.
+```javascript
+coverage erase
+```
+To see the coverage report(which files are covered and how much), run this command. But do not erase and then run this command, coverage file has to stay to show 
+you the report.
+```javascript
+coverage report
+```
