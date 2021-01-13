@@ -6,7 +6,7 @@ Used frameworks and technologies in this project are:
 - To create REST APIs, Django Rest Framework 3.12.2 is used.
 - For Database, PostGres Database is Used.
 - For authentication, DRF's Token Based authentication is used.
-- For testing, Unit Tests are used.
+- For testing, Model, API, serializer tests are written.
 
 Supported Endpoints right now:
 ### Acquire Authentication
@@ -132,4 +132,8 @@ To edit a comment just provide the comment text. Post to which the comment was p
 Project has unit tests. These include API tests, model tests. To run tests use this command,
 ```javascript
 python manage.py test
+```
+to run Test with coverage run this command,
+```javascript
+coverage run --source='.' manage.py test main.blogapp
 ```
