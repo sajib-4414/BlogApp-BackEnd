@@ -1,5 +1,5 @@
 # Technology discussion Board Back-End
-It is the Back-End for a technology discussion related Application. Any front-End such as Mobile can consume this. I will create a front-End consumer soon. Right nowm, one can signup by creating an user. They can add profile image. Then they can login to do all the activities. An authenticated user create Posts and write comments. View, update, delete of comments and posts are supported.
+It is the Back-End for a technology discussion related Application. Any front-End such as Mobile can consume this. I will create a front-End consumer soon. Right nowm, one can signup by creating an user. They can add profile image. Then they can login to do all the activities. An authenticated user create Posts and write comments. View, update, delete of comments and posts are supported. Make all Post request params as body params
 
 Used frameworks and technologies in this project are: 
 
@@ -10,10 +10,10 @@ Used frameworks and technologies in this project are:
 Supported Endpoints right now:
 ### Acquire Authentication
 Most of the Endpoints require Authentication in the Back-End to create a successful request. In this project, a Token based authentication is implemented.
-To acquire authentication, you need a valid user credentials (username and password). First create a user via calling the user creation API in the user section. Then
-call this endpoint with a valid payload:
+To acquire authentication, you need a valid user credentials (username and password). Before getting token, first create a user via calling the user creation API as shown in the user section. Then
+call this endpoint with a valid payload (POST, body params):
 
-http://localhost:8000/users/
+http://localhost:8000/auth-token/
 
 Sample payload: 
 ```javascript
